@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/card_view"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Image -->
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="110dp"
+                app:srcCompat="@android:color/holo_green_dark"
+                android:id="@+id/color_image"/>
+
+            <!-- Location -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location:"
+                android:id="@+id/location_name"
+                android:layout_toRightOf="@+id/color_image"
+                android:layout_margin="6dp"/>
+
+            <!-- Location Text -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Living room"
+                android:id="@+id/location_text"
+                android:layout_toRightOf="@+id/location_name"
+                android:layout_margin="6dp"/>
+
+            <!-- Color -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Color:"
+                android:id="@+id/color_rgb"
+                android:layout_toRightOf="@+id/color_image"
+                android:layout_below="@+id/location_name"
+                android:layout_margin="6dp"/>
+
+            <!-- Color Text -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Olive Green"
+                android:id="@+id/color_text"
+                android:layout_toRightOf="@+id/color_rgb"
+                android:layout_below="@+id/location_name"
+                android:layout_margin="6dp"/>
+
+            <!-- Mode -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mode:"
+                android:id="@+id/mode"
+                android:layout_toRightOf="@+id/color_image"
+                android:layout_below="@+id/color_rgb"
+                android:layout_margin="6dp"/>
+
+            <!-- Mode Text-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Strobe"
+                android:id="@+id/mode_text"
+                android:layout_toRightOf="@+id/mode"
+                android:layout_below="@+id/color_rgb"
+                android:layout_margin="6dp"/>
+
+            <!-- Strip ID -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID:"
+                android:id="@+id/strip_id"
+                android:layout_toRightOf="@+id/color_image"
+                android:layout_below="@+id/mode"
+                android:layout_margin="6dp"/>
+            <!-- Strip ID -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="101"
+                android:id="@+id/strip_id_text"
+                android:layout_toRightOf="@+id/strip_id"
+                android:layout_below="@+id/mode"
+                android:layout_margin="6dp"/>
+        </RelativeLayout>
+
+
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

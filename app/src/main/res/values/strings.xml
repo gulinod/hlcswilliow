@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Home LED Control System</string>
+    <string name="large_text">
+
+    </string>
+    <string name="action_settings">Settings</string>
+    <string-array
+        name="locations">
+        <item>Living Room</item>
+        <item>Kitchen</item>
+        <item>Dining Room</item>
+        <item>Bedroom</item>
+        <item>Desk</item>
+        <item>Garage</item>
+    </string-array>
+    <string-array
+        name="colors">
+        <item>Red</item>
+        <item>Orange</item>
+        <item>Yellow</item>
+        <item>Green</item>
+        <item>Blue</item>
+        <item>Indigo</item>
+    </string-array>
+    <string-array name="modes">
+        <item>On</item>
+        <item>Off</item>
+        <item>Fade</item>
+        <item>Flash</item>
+        <item>Breathing</item>
+        <item>Color Jump</item>
+    </string-array>
+    <string-array name="IDs">
+        <item>101</item>
+        <item>102</item>
+        <item>103</item>
+        <item>104</item>
+        <item>105</item>
+        <item>106</item>
+    </string-array>
+</resources>
