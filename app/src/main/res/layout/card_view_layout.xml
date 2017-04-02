@@ -12,13 +12,15 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="10dp">
 
             <!-- Image -->
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="110dp"
-                app:srcCompat="@android:color/holo_green_dark"
+                android:background="@android:color/black"
+                android:backgroundTint="@color/cardview_light_background"
                 android:id="@+id/color_image"/>
 
             <!-- Location -->
@@ -27,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:text="Location:"
                 android:id="@+id/location_name"
+
                 android:layout_toRightOf="@+id/color_image"
                 android:layout_margin="6dp"/>
 

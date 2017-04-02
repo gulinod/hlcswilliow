@@ -4,7 +4,7 @@ package hlcs.willow.com.homeledcontrolsystem;
  * Created by dan on 2/19/17.
  */
 
-public class LightStrip {
+public class  LightStrip {
 
     public LightStrip(String location, String mode, String color, String ID){
 
