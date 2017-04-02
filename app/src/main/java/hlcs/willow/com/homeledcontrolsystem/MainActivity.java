@@ -89,7 +89,11 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
                     new PostToServer(colorObj).execute();
                 }catch(Exception e){
                     Toast.makeText(this, "ERROR:" + e, Toast.LENGTH_SHORT).show();
+                    break;
                 }
+                ImageView color_image = (ImageView) findViewById(R.id.color_image);
+                color_image.setBackgroundColor(Color.rgb(r, g, b));
+
                 break;
 
         }
