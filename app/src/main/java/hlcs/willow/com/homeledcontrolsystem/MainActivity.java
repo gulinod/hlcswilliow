@@ -53,12 +53,7 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
 
         recyclerView.setAdapter(adapter);
 
-        ImageView backgroundImg = (ImageView) findViewById(R.id.color_image);
-        try{
-            new GetFromServer(backgroundImg, this, adapter).execute();
-        }catch (Exception e){
-            Log.e("It broke", e.toString());
-        }
+
 
 
 
@@ -68,6 +63,12 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        ImageView backgroundImg = (ImageView) findViewById(R.id.color_image);
+        try{
+            new GetFromServer(backgroundImg, this, adapter).execute();
+        }catch (Exception e){
+            Log.e("It broke", e.toString());
+        }
         return true;
     }
     @Override public void onColorSelected(int dialogId, int color) {

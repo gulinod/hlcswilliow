@@ -36,14 +36,8 @@ public class LightStripAdapter extends RecyclerView.Adapter<LightStripAdapter.Li
         activity = (Activity) parent.getContext();
         final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_layout, parent,false);
         LightStripViewHolder lightStripViewHolder= new LightStripViewHolder(view);
-
-
             view.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-
-
-
-                        /*case R.id.regular:*/
                             ColorPickerDialog.newBuilder()
                                     .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
                                     .setAllowPresets(false)
@@ -51,17 +45,11 @@ public class LightStripAdapter extends RecyclerView.Adapter<LightStripAdapter.Li
                                     .setColor(Color.BLACK)
                                     .setShowAlphaSlider(false)
                                     .show(activity);
-
-                    ////Put color picker code here
                     Log.i("HEREERERe","Clicked!");
                 }
             });
-
-
         return lightStripViewHolder;
     }
-    // @Override
-
     @Override
     public void onBindViewHolder(LightStripViewHolder holder, int position) {
         LightStrip ls = lightStrip.get(position);
@@ -71,7 +59,6 @@ public class LightStripAdapter extends RecyclerView.Adapter<LightStripAdapter.Li
         holder.ID.setText(ls.getID());
 
     }
-
 
     @Override
     public int getItemCount() {
