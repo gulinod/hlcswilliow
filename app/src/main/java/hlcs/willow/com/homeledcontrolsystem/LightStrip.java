@@ -6,25 +6,21 @@ package hlcs.willow.com.homeledcontrolsystem;
 
 public class  LightStrip {
 
-    public LightStrip(String location, String mode, String color, String ID){
+    public LightStrip(String location, String mode,  String IP){
 
         this.setLocation(location);
         this.setMode(mode);
-        this.setColor(color);
-        this.setID(ID);
+        this.setID(IP);
     }
 
     private String location;
     private String mode;
-    private String ID;
-    private String color;
+    private String IP;
 
-    public String getID() {
-        return ID;
-    }
+    public String getIP() {return IP;}
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setID(String IP) {
+        this.IP = IP;
     }
 
     public String getLocation() {
@@ -41,14 +37,6 @@ public class  LightStrip {
 
     public void setMode(String mode) {
         this.mode = mode;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
     }
 
 

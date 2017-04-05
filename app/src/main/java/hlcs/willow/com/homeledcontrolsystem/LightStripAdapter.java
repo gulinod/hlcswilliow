@@ -34,8 +34,8 @@ public class LightStripAdapter extends RecyclerView.Adapter<LightStripAdapter.Li
     public LightStripViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final ViewGroup innerParent = parent;
         activity = (Activity) parent.getContext();
-        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_layout, parent,false);
-        LightStripViewHolder lightStripViewHolder= new LightStripViewHolder(view);
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_layout, parent, false);
+        LightStripViewHolder lightStripViewHolder = new LightStripViewHolder(view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
                             ColorPickerDialog.newBuilder()
@@ -45,18 +45,18 @@ public class LightStripAdapter extends RecyclerView.Adapter<LightStripAdapter.Li
                                     .setColor(Color.BLACK)
                                     .setShowAlphaSlider(false)
                                     .show(activity);
-                    Log.i("HEREERERe","Clicked!");
+                    //Log.i("HEREERERe","Clicked!");
                 }
             });
+
         return lightStripViewHolder;
     }
     @Override
     public void onBindViewHolder(LightStripViewHolder holder, int position) {
         LightStrip ls = lightStrip.get(position);
         holder.location_text.setText(ls.getLocation());
-        holder.color_text.setText(ls.getColor());
         holder.mode_text.setText(ls.getMode());
-        holder.ID.setText(ls.getID());
+        holder.ID.setText(ls.getIP());
 
     }
 
@@ -72,11 +72,11 @@ public class LightStripAdapter extends RecyclerView.Adapter<LightStripAdapter.Li
         public LightStripViewHolder(View view){
             super(view);
             location_text = (TextView)view.findViewById(R.id.location_text);
-            mode_text= (TextView)view.findViewById(R.id.mode_text);
-            color_text = (TextView)view.findViewById(R.id.color_text);
+            mode_text= (TextView)view.findViewById(R.id.mode_text);;
             ID = (TextView)view.findViewById(R.id.strip_id_text);
 
         }
 
     }
+
 }
