@@ -20,7 +20,7 @@
         android:text="Connection IP:"/>
     <EditText
         android:id="@+id/led_connection_ip_value"
-        android:inputType="textEmailAddress"
+        android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -36,7 +36,7 @@
         android:text="Name of connection"/>
     <EditText
         android:id="@+id/led_connection_name_value"
-        android:inputType="textPassword"
+        android:inputType="text"
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -5,11 +5,13 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ public class LightStripAdapter extends RecyclerView.Adapter<LightStripAdapter.Li
     private static final int DIALOG_ID = 0;
     Activity activity;
     ArrayList<LightStrip> lightStrip = new ArrayList<LightStrip>();
+    int dialogId=0;
 
     public LightStripAdapter(ArrayList<LightStrip> lightStrip){
         this.lightStrip = lightStrip;
@@ -35,13 +38,16 @@ public class LightStripAdapter extends RecyclerView.Adapter<LightStripAdapter.Li
         final ViewGroup innerParent = parent;
         activity = (Activity) parent.getContext();
         final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_layout, parent, false);
-        LightStripViewHolder lightStripViewHolder = new LightStripViewHolder(view);
+
+        final LightStripViewHolder lightStripViewHolder = new LightStripViewHolder(view);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
+                    //
+                   Log.i("ssda",Integer.toString(lightStripViewHolder.getPosition()));
                             ColorPickerDialog.newBuilder()
                                     .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
                                     .setAllowPresets(false)
-                                    .setDialogId(0)
+                                    .setDialogId(lightStripViewHolder.getPosition())
                                     .setColor(Color.BLACK)
                                     .setShowAlphaSlider(false)
                                     .show(activity);
@@ -57,6 +63,11 @@ public class LightStripAdapter extends RecyclerView.Adapter<LightStripAdapter.Li
         holder.location_text.setText(ls.getLocation());
         holder.mode_text.setText(ls.getMode());
         holder.ID.setText(ls.getIP());
+        holder.colorImage.setBackgroundColor(Color.rgb(ls.getColor().getRed(), ls.getColor().getGreen(), ls.getColor().getBlue()));
+
+        dialogId = position;
+
+        //new GetFromServer()
 
     }
 
@@ -68,12 +79,14 @@ public class LightStripAdapter extends RecyclerView.Adapter<LightStripAdapter.Li
     public static class LightStripViewHolder extends RecyclerView.ViewHolder {
 
         TextView location_text, mode_text, color_text,  ID;
+        ImageView colorImage;
 
         public LightStripViewHolder(View view){
             super(view);
             location_text = (TextView)view.findViewById(R.id.location_text);
             mode_text= (TextView)view.findViewById(R.id.mode_text);;
             ID = (TextView)view.findViewById(R.id.strip_id_text);
+            colorImage = (ImageView)view.findViewById(R.id.color_image);
 
         }
 

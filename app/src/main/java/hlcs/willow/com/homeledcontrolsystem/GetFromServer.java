@@ -68,7 +68,6 @@ public class GetFromServer extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void result) {
         ad.notifyDataSetChanged();
         //Log.i("This is the i", this.image.toString());;
-        Log.i("updating adapter", "Ccosd");
         try{
             //update the background to the latest color
             this.image.setBackgroundColor(Color.rgb(color.getRed(), color.getGreen(), color.getBlue()));

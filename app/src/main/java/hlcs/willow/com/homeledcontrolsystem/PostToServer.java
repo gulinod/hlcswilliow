@@ -9,6 +9,7 @@ import java.io.IOException;
 import okhttp3.Call;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -26,12 +27,12 @@ public class PostToServer extends AsyncTask<String, Void, String> {
     private LEDColor color;
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    LightStripAdapter.LightStripViewHolder ls;
     public String url;
 
-    public PostToServer(LEDColor color) {
+    public PostToServer(LEDColor color, String url) {
         this.color = color;
-
-
+        this.url = "http://" + url + "/api/v1/basic-color";
     }
     @Override
     protected void onPreExecute() {
@@ -45,6 +46,7 @@ public class PostToServer extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
 
+        //Log.i("String should be", url);
 
         // Make a new OkHttpClient (Maybe use a final - activity wide one?)
         OkHttpClient client = new OkHttpClient();

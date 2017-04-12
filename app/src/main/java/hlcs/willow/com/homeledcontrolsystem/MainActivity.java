@@ -16,60 +16,79 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
 import com.jrummyapps.android.colorpicker.ColorPickerDialogListener;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 public class MainActivity extends AppCompatActivity implements ColorPickerDialogListener {
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
-
+    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    Type listType = new TypeToken<ArrayList<LightStrip>>() {}.getType();
     String [] location, IP, mode;
 
     ArrayList<LightStrip> lightStrip = new ArrayList<LightStrip>();
+    LightStrip selectedLightStrp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //set the defualt color to black
+        LEDColor ledColor;
        /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
-        location = getResources().getStringArray(R.array.locations);
-        IP = getResources().getStringArray(R.array.IDs);
-        mode = getResources().getStringArray(R.array.modes);
-        int count = 0;
-        for(String Location : location){
-            LightStrip ls = new LightStrip(location[count], mode[count], IP[count]);
-            count++;
-            lightStrip.add(ls);
+
+
+
+        /*    READ FROM LOCAL STORAGE HERE */
+        FileInputStream fis;
+        String content = "";
+        try {
+            fis = openFileInput("lightstrip.txt");
+            byte[] input = new byte[fis.available()];
+            while (fis.read(input) != -1) {
+                content += new String(input);
+            }
+            }
+
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.i("CONTENT", content);
+
+
+        lightStrip = gson.fromJson(content, listType);
         recyclerView = (RecyclerView)findViewById(R.id.strip_list);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         adapter = new LightStripAdapter(lightStrip);
-
         recyclerView.setAdapter(adapter);
 
-        AlertDialog.Builder dBuilder = new AlertDialog.Builder(MainActivity.this);
+        final AlertDialog.Builder dBuilder = new AlertDialog.Builder(MainActivity.this);
         View view = getLayoutInflater().inflate(R.layout.new_connection_dialog, null);
         final EditText connectionIp = (EditText) view.findViewById(R.id.led_connection_ip_value);
         final EditText connectionName = (EditText) view.findViewById(R.id.led_connection_name_value);
         final Button  connectButton = (Button) view.findViewById(R.id.dialog_connect_button);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floatingActionButton2);
 
-
-        connectButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                // add light strip with to recycler view
-                lightStrip.add(new LightStrip(connectionName.getText().toString(), "solid", connectionIp.getText().toString()));
-                adapter.notifyDataSetChanged();
-            }
-
-        });
 
         dBuilder.setView(view);
        final  AlertDialog dialog = dBuilder.create();
@@ -80,17 +99,27 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
                 dialog.show();
             }
         });
+        connectButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                // add light strip with to recycler view
+                lightStrip.add(new LightStrip( connectionName.getText().toString(), "solid", connectionIp.getText().toString(), new LEDColor(0,0,0,"solid")));
+                adapter.notifyDataSetChanged();
+                dialog.dismiss();
+
+                saveData(lightStrip);
+            }
+
+        });
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        ImageView backgroundImg = (ImageView) findViewById(R.id.color_image);
         try{
-            new GetFromServer(backgroundImg, this, adapter).execute();
+           // new GetFromServer(backgroundImg, this, adapter).execute();
         }catch (Exception e){
             Log.e("It broke", e.toString());
         }
@@ -98,10 +127,7 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     }
 
     @Override public void onColorSelected(int dialogId, int color) {
-        Log.i("Its not broke", ":yet");
-        switch (dialogId) {
-            case 0:
-                // We got result from the dialog that is shown when clicking on the icon in the action bar.
+
 
                 //convert hex to RGB
                 int newColor = (int)Long.parseLong(Integer.toHexString(color), 16);
@@ -113,22 +139,22 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
                 LEDColor colorObj = new LEDColor(r,g,b, mode);
                 Toast.makeText(this, "Selected LEDColor R:" + r + " G: " + g + " B: " + b, Toast.LENGTH_SHORT).show();
                 try{
-
-                    new PostToServer(colorObj).execute();
+                    //change this to send the entire lightstrip
+                    new PostToServer(colorObj, lightStrip.get(dialogId).getIP() ).execute();
                 }catch(Exception e){
                     Toast.makeText(this, "ERROR:" + e, Toast.LENGTH_SHORT).show();
                     //break if error and don't set color
-                    break;
+                    Log.e("Soemthing broke: ", e.toString());
                 }
                 //set the attributes of the things
                 TextView mode_text = (TextView) findViewById(R.id.mode_text);
-                ImageView color_image = (ImageView) findViewById(R.id.color_image);
                 mode_text.setText(mode);
-                color_image.setBackgroundColor(Color.rgb(r, g, b));
+                lightStrip.get(dialogId).setColor(colorObj);
+                adapter.notifyDataSetChanged();
+                saveData(lightStrip);
 
-                break;
 
-        }
+
     }
     @Override public void onDialogDismissed(int dialogId) {
 
@@ -147,5 +173,21 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void saveData(ArrayList<LightStrip> lightStrip){
+
+        String jsonStr = gson.toJson(lightStrip, listType);
+
+        //store lightstrip data here
+        try {
+            Log.i("What I'm storing", jsonStr);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput("lightstrip.txt", MainActivity.MODE_PRIVATE));
+            outputStreamWriter.write(jsonStr);
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
     }
 }
