@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
 
 
         dBuilder.setView(view);
-       final  AlertDialog dialog = dBuilder.create();
+       final AlertDialog dialog = dBuilder.create();
 
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -168,6 +168,11 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     public void deleteLightStrip(int selectedLS){
         lightStrip.remove(selectedLS);
         adapter.notifyDataSetChanged();
+        //save changes
+        saveData(lightStrip);
+    }
+    public static void editLightStrip(int selectedLs){
+        //add popoup to lightstrip here
     }
 
     @Override

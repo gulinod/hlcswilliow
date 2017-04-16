@@ -70,12 +70,17 @@ public class LightStripAdapter extends RecyclerView.Adapter<LightStripAdapter.Li
                 builder.setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                       mainActivity.deleteLightStrip(lightStripViewHolder.getPosition());
+                        switch (which){
+                            case 0:
+                                mainActivity.deleteLightStrip(lightStripViewHolder.getPosition());
+                            case 1:
+                                //call the edit lightstrip method here
+
+                        }
+
                     }
                 });
-               builder.show();
-
-                Toast.makeText(v.getContext(), "Position is " + lightStripViewHolder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                builder.show();
                 return true;
             }
         });
