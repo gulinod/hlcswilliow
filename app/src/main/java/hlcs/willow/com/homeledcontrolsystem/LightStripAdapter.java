@@ -2,10 +2,12 @@ package hlcs.willow.com.homeledcontrolsystem;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,11 +56,35 @@ public class LightStripAdapter extends RecyclerView.Adapter<LightStripAdapter.Li
                     //Log.i("HEREERERe","Clicked!");
                 }
             });
+        ///Long click action\\\
+        view.setOnLongClickListener(new View.OnLongClickListener()
+        {
+            @Override
+            public boolean onLongClick(View v)
+            {
 
+                CharSequence options[] = new CharSequence[] {"Delete", "Edit"};
+                final MainActivity mainActivity = new MainActivity();
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setTitle("Pick a color");
+                builder.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                       mainActivity.deleteLightStrip(lightStripViewHolder.getPosition());
+                    }
+                });
+               builder.show();
+
+                Toast.makeText(v.getContext(), "Position is " + lightStripViewHolder.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
         return lightStripViewHolder;
     }
     @Override
     public void onBindViewHolder(LightStripViewHolder holder, int position) {
+
+        holder.itemView.setLongClickable(true);
         LightStrip ls = lightStrip.get(position);
         holder.location_text.setText(ls.getLocation());
         holder.mode_text.setText(ls.getMode());

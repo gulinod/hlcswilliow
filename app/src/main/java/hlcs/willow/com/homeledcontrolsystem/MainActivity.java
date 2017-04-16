@@ -34,13 +34,13 @@ import com.google.gson.GsonBuilder;
 
 public class MainActivity extends AppCompatActivity implements ColorPickerDialogListener {
     RecyclerView recyclerView;
-    RecyclerView.Adapter adapter;
+    public static RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     Type listType = new TypeToken<ArrayList<LightStrip>>() {}.getType();
     String [] location, IP, mode;
 
-    ArrayList<LightStrip> lightStrip = new ArrayList<LightStrip>();
+     public static ArrayList<LightStrip> lightStrip = new ArrayList<LightStrip>();
     LightStrip selectedLightStrp;
 
     @Override
@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
 
 
         lightStrip = gson.fromJson(content, listType);
+
         recyclerView = (RecyclerView)findViewById(R.id.strip_list);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -104,9 +105,14 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
             public void onClick(View view){
                 // add light strip with to recycler view
                 lightStrip.add(new LightStrip( connectionName.getText().toString(), "solid", connectionIp.getText().toString(), new LEDColor(0,0,0,"solid")));
+                //clear the text of the ip field
+                connectionIp.setText("");
+                connectionName.setText("");
+                //update dataset
                 adapter.notifyDataSetChanged();
+                //close the dialog
                 dialog.dismiss();
-
+                //save the updated data to disk
                 saveData(lightStrip);
             }
 
@@ -159,7 +165,10 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     @Override public void onDialogDismissed(int dialogId) {
 
     }
-
+    public void deleteLightStrip(int selectedLS){
+        lightStrip.remove(selectedLS);
+        adapter.notifyDataSetChanged();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
