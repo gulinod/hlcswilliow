@@ -1,4 +1,5 @@
 package hlcs.willow.com.homeledcontrolsystem;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     Type listType = new TypeToken<ArrayList<LightStrip>>() {}.getType();
     String [] location, IP, mode;
 
-     public static ArrayList<LightStrip> lightStrip = new ArrayList<LightStrip>();
+    public static ArrayList<LightStrip> lightStrip = new ArrayList<LightStrip>();
     LightStrip selectedLightStrp;
 
     @Override
@@ -157,7 +158,9 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
                 mode_text.setText(mode);
                 lightStrip.get(dialogId).setColor(colorObj);
                 adapter.notifyDataSetChanged();
-                saveData(lightStrip);
+                StoreData sd = new StoreData();
+
+                sd.saveData(lightStrip, MainActivity.this);
 
 
 
@@ -165,15 +168,27 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     @Override public void onDialogDismissed(int dialogId) {
 
     }
-    public void deleteLightStrip(int selectedLS){
+    public void deleteLightStrip(int selectedLS, Context ctx){
         lightStrip.remove(selectedLS);
         adapter.notifyDataSetChanged();
         //save changes
-        saveData(lightStrip);
+        StoreData sd = new StoreData();
+        sd.saveData(lightStrip, ctx );
     }
-    public static void editLightStrip(int selectedLs){
+    public void editLightStrip(int selectedLs, View view){
         //add popoup to lightstrip here
+        final AlertDialog.Builder dBuilder = new AlertDialog.Builder(view.getContext());
+        View v = getLayoutInflater().inflate(R.layout.new_connection_dialog, null);
+        final EditText connectionIp = (EditText) v.findViewById(R.id.led_connection_ip_value);
+        final EditText connectionName = (EditText) v.findViewById(R.id.led_connection_name_value);
+        final Button  connectButton = (Button) v.findViewById(R.id.dialog_connect_button);
+
+        dBuilder.setView(view);
+        final AlertDialog dialog = dBuilder.create();
+        connectButton.setText(R.string.save_changes_button);
+        dialog.show();
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -190,7 +205,6 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     }
 
     public void saveData(ArrayList<LightStrip> lightStrip){
-
         String jsonStr = gson.toJson(lightStrip, listType);
 
         //store lightstrip data here

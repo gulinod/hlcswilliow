@@ -72,12 +72,14 @@ public class LightStripAdapter extends RecyclerView.Adapter<LightStripAdapter.Li
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case 0:
-                                mainActivity.deleteLightStrip(lightStripViewHolder.getPosition());
+                                mainActivity.deleteLightStrip(lightStripViewHolder.getPosition(), view.getContext());
+                                break;
                             case 1:
                                 //call the edit lightstrip method here
-
+                                mainActivity.editLightStrip(lightStripViewHolder.getPosition(), view);
+                                break;
                         }
-
+;
                     }
                 });
                 builder.show();
