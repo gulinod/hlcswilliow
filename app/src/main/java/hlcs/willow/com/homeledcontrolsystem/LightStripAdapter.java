@@ -66,7 +66,7 @@ public class LightStripAdapter extends RecyclerView.Adapter<LightStripAdapter.Li
                 CharSequence options[] = new CharSequence[] {"Delete", "Edit"};
                 final MainActivity mainActivity = new MainActivity();
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setTitle("Pick a color");
+                builder.setTitle("Light Strip Options");
                 builder.setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

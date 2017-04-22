@@ -46,6 +46,13 @@
         android:layout_marginBottom="16dp"
         android:fontFamily="sans-serif"
         android:hint="Name of Connection"/>
+    <Spinner
+        android:id="@+id/dialog_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown" />
 
     <Button
         android:text="Connect"

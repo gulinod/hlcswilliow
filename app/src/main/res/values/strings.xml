@@ -36,18 +36,12 @@
         <item>Indigo</item>-->
     </string-array>
     <string-array name="modes">
-        <item>On</item>
-    <!--    <item>Off</item>
-        <item>Fade</item>
-        <item>Flash</item>
-        <item>Breathing</item>
-        <item>Color Jump</item>
-        <item>On</item>
         <item>Off</item>
         <item>Fade</item>
         <item>Flash</item>
         <item>Breathing</item>
-        <item>Color Jump</item>-->
+        <item>Solid</item>
+
     </string-array>
     <string-array name="IDs">
         <item>150.156.209.186:5003</item>

@@ -1,5 +1,6 @@
 package hlcs.willow.com.homeledcontrolsystem;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,9 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -83,16 +87,32 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
         recyclerView.setHasFixedSize(true);
         adapter = new LightStripAdapter(lightStrip);
         recyclerView.setAdapter(adapter);
+        String[] items = new String[]{"1", "2", "three"};
+        ArrayAdapter<CharSequence> spinnerAdapter =  ArrayAdapter.createFromResource(this,
+                R.array.modes, android.R.layout.simple_spinner_item);
+
 
         final AlertDialog.Builder dBuilder = new AlertDialog.Builder(MainActivity.this);
         View view = getLayoutInflater().inflate(R.layout.new_connection_dialog, null);
         final EditText connectionIp = (EditText) view.findViewById(R.id.led_connection_ip_value);
         final EditText connectionName = (EditText) view.findViewById(R.id.led_connection_name_value);
         final Button  connectButton = (Button) view.findViewById(R.id.dialog_connect_button);
+        final Spinner spinnerList = (Spinner) view.findViewById(R.id.dialog_spinner);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floatingActionButton2);
-
+        spinnerList.setAdapter(spinnerAdapter);
 
         dBuilder.setView(view);
+        spinnerList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+               
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
        final AlertDialog dialog = dBuilder.create();
 
         fab.setOnClickListener(new View.OnClickListener(){
@@ -101,11 +121,14 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
                 dialog.show();
             }
         });
+
+
+
         connectButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 // add light strip with to recycler view
-                lightStrip.add(new LightStrip( connectionName.getText().toString(), "solid", connectionIp.getText().toString(), new LEDColor(0,0,0,"solid")));
+                lightStrip.add(new LightStrip( connectionName.getText().toString(), spinnerList.getSelectedItem().toString(), connectionIp.getText().toString(), new LEDColor(0,0,0,"solid")));
                 //clear the text of the ip field
                 connectionIp.setText("");
                 connectionName.setText("");
@@ -115,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
                 dialog.dismiss();
                 //save the updated data to disk
                 saveData(lightStrip);
+
             }
 
         });
