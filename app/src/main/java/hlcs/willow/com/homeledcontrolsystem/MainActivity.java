@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import com.google.gson.Gson;
@@ -42,24 +44,20 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     public static RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
     Type listType = new TypeToken<ArrayList<LightStrip>>() {}.getType();
     String [] location, IP, mode;
 
     public static ArrayList<LightStrip> lightStrip = new ArrayList<LightStrip>();
     LightStrip selectedLightStrp;
-
+    LayoutInflater layoutInflater;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //set the defualt color to black
         LEDColor ledColor;
-       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
 
-
-
-        /*    READ FROM LOCAL STORAGE HERE */
         FileInputStream fis;
         String content = "";
         try {
@@ -78,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
         }
         Log.i("CONTENT", content);
 
-
+        layoutInflater = getLayoutInflater();
         lightStrip = gson.fromJson(content, listType);
 
         recyclerView = (RecyclerView)findViewById(R.id.strip_list);
@@ -105,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
         spinnerList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               
+
             }
 
             @Override
@@ -199,17 +197,54 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
         StoreData sd = new StoreData();
         sd.saveData(lightStrip, ctx );
     }
-    public void editLightStrip(int selectedLs, View view){
+    public void editLightStrip(final int selectedLs, View view){
         //add popoup to lightstrip here
         final AlertDialog.Builder dBuilder = new AlertDialog.Builder(view.getContext());
-        View v = getLayoutInflater().inflate(R.layout.new_connection_dialog, null);
+        View v = LayoutInflater.from(view.getContext()).inflate(R.layout.new_connection_dialog, null);
         final EditText connectionIp = (EditText) v.findViewById(R.id.led_connection_ip_value);
         final EditText connectionName = (EditText) v.findViewById(R.id.led_connection_name_value);
         final Button  connectButton = (Button) v.findViewById(R.id.dialog_connect_button);
+        final Spinner spinner = (Spinner) v.findViewById(R.id.dialog_spinner);
+        //position of selected mode in list selector
+        int pos= 0;
+        ArrayAdapter<CharSequence> spinnerAdapter =  ArrayAdapter.createFromResource(view.getContext(),
+                R.array.modes, android.R.layout.simple_spinner_item);
 
-        dBuilder.setView(view);
+        spinner.setAdapter(spinnerAdapter);
+        connectionIp.setText(lightStrip.get(selectedLs).getIP());
+        connectionName.setText(lightStrip.get(selectedLs).getLocation());
+        switch(lightStrip.get(selectedLs).getMode()){
+            case "Off":
+                pos = 0;
+                break;
+            case "Fade":
+                pos = 1;
+                break;
+            case "Flash":
+                pos = 2;
+                break;
+            case "Breathing":
+                pos = 3;
+                break;
+            case "Solid":
+                pos = 4;
+                break;
+        }
+        spinner.setSelection(pos);
+
+
+        dBuilder.setView(v);
         final AlertDialog dialog = dBuilder.create();
         connectButton.setText(R.string.save_changes_button);
+        connectButton.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 lightStrip.set(selectedLs,  new LightStrip( connectionName.getText().toString(), spinner.getSelectedItem().toString(), connectionIp.getText().toString(), lightStrip.get(selectedLs).getColor()));
+                 //clear the text of the ip field
+                 adapter.notifyDataSetChanged();
+                 dialog.dismiss();
+             }
+         });
         dialog.show();
     }
 
