@@ -17,11 +17,29 @@ Above is a rough sketch of the planned architecture that will allow the user to 
 
 #### Screenshots
 
-![alt text](http://web.cs.sunyit.edu/~gulinod/capstone/images/HLCS_color_picker.png "Logo Title Text 1")
-![alt text](http://web.cs.sunyit.edu/~gulinod/capstone/images/HLCS_connection.png
+![alt text](http://web.cs.sunyit.edu/~gulinod/capstone/images/HLCS_color_picker.png 
 "Logo Title Text 1")
-![alt text]http://web.cs.sunyit.edu/~gulinod/capstone/images/HLCS_mode_selector.png "Logo Title Text 1")
+
+This is where the user will select the color of the LED strip. The user will be able to reach this dialog by clicking on the light strip you want to change.
+
+![alt text](http://web.cs.sunyit.edu/~gulinod/capstone/images/HLCS_conne
+
+ction.png
+"Logo Title Text 1")
+
+This dialog allows the user to connect to the desired light strip by inputting the ip of the pi controlling the strip and the name/locaiton of the strip. Here the user can also set the default mode. 
+
+![alt text](http://web.cs.sunyit.edu/~gulinod/capstone/images/HLCS_mode_selector.png 
+"Logo Title Text 1")
+
+This will allow the user to select the mode from the connection menu and in the edit menu after the strip has been added to the light strip list. 
+
 ![alt text](http://web.cs.sunyit.edu/~gulinod/capstone/images/HLCS_strip_list.png
 "Logo Title Text 1")
+
+This shows the screen after the user has added light strips. This view is the main view that the user will be interacting with. From this screen the user can add, edit, delete, and change the color of everylight strip. 
+
 ![alt text](http://web.cs.sunyit.edu/~gulinod/capstone/images/HLCS_strip_options.png
 "Logo Title Text 1")
+
+This shows the two options the user has when they long click on the strip. 
