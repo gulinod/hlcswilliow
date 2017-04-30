@@ -16,3 +16,12 @@ I came up with the idea for this project when I had gone to bed and forgot the s
 Above is a rough sketch of the planned architecture that will allow the user to have control over the desired light strip. The app will connect to a Raspberry Pi over a Wi-Fi connection. The Raspberry Pi will control the light strip pins via its GPIO pins. To communicated between the Pi and the Android app the pi will have a Python webserver running on it with an API to allow it to set and get the current colors and relay/receive that data with the mobile app.
 
 #### Screenshots
+
+![alt text](http://web.cs.sunyit.edu/~gulinod/capstone/images/HLCS_color_picker.png "Logo Title Text 1")
+![alt text](http://web.cs.sunyit.edu/~gulinod/capstone/images/HLCS_connection.png
+"Logo Title Text 1")
+![alt text]http://web.cs.sunyit.edu/~gulinod/capstone/images/HLCS_mode_selector.png "Logo Title Text 1")
+![alt text](http://web.cs.sunyit.edu/~gulinod/capstone/images/HLCS_strip_list.png
+"Logo Title Text 1")
+![alt text](http://web.cs.sunyit.edu/~gulinod/capstone/images/HLCS_strip_options.png
+"Logo Title Text 1")
