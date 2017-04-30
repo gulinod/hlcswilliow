@@ -41,3 +41,7 @@ This shows the screen after the user has added light strips. This view is the ma
 "Logo Title Text 1")
 
 This shows the two options the user has when they long click on the strip. 
+
+#### Future plans
+
+* Add a layer of security to password protect a lightstrip
