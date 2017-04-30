@@ -22,9 +22,7 @@ Above is a rough sketch of the planned architecture that will allow the user to 
 
 This is where the user will select the color of the LED strip. The user will be able to reach this dialog by clicking on the light strip you want to change.
 
-![alt text](http://web.cs.sunyit.edu/~gulinod/capstone/images/HLCS_conne
-
-ction.png
+![alt text](http://web.cs.sunyit.edu/~gulinod/capstone/images/HLCS_connection.png
 "Logo Title Text 1")
 
 This dialog allows the user to connect to the desired light strip by inputting the ip of the pi controlling the strip and the name/locaiton of the strip. Here the user can also set the default mode. 
